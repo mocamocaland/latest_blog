@@ -47,8 +47,16 @@
     </div>
 
     <div class="container">
-      {% block content %}
-      {% endblock %}
+      <div class="row">
+        <dicv class="col-md-8">
+       {% block content %}
+       {% endblock %}
+        </dicv>
+        <div class="col-md-4">
+            カテゴリの一覧
+        </div>
+      </div>
+
     </div>
 
     <footer class="bg-dark text-white text-center py-3">
