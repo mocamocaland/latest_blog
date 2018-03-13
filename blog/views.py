@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views import generic
 from .forms import CommentCreateForm
 from .models import Post, Category, Comment
@@ -42,11 +42,13 @@ class DetailView(generic.DetailView):
 
 class CommentView(generic.CreateView):
     model = Comment
+    #fields = ('name', 'text') #こういう書き方もあり
     form_class = CommentCreateForm
-
+    
+    # 
     def form_valid(self, form):
         post_pk = self.kwargs['post_pk']
-        comment = form.save(commit=False)
-        comment.post = get_object_or_404(Post, pk=post_pk)
-        comment.save()
+        comment = form.save(commit=False) # コメントはDBに保存されていません
+        comment.post = get_object_or_404(Post, pk=post_pk) #中の属性にアクセスして書き換えができる
+        comment.save() # ここでDBに保存
         return redirect('blog:detail', pk=post_pk)
